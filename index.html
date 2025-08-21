@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Vista armada por secciones</title>
+
 <style>
   :root{
     /* Tamaño del formulario (con límites para responsive) */
@@ -19,16 +20,17 @@
   }
 
   /* Layout general: header arriba, footer abajo, izquierda fija, contenido a la derecha */
- .layout{
-  height: 100vh;
-  display: grid;
-  grid-template-columns: auto 1fr;     /* left | right */
-  grid-template-rows: auto 1fr auto;   /* fila 1: sidebar+header | fila 2: sidebar+main | fila 3: footer */
-  grid-template-areas:
-    "sidebar header"
-    "sidebar main"
-    "footer  footer";
-}
+  .layout{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr;     /* left | right */
+    grid-template-rows: auto 1fr auto;   /* fila 1: sidebar+header | fila 2: sidebar+main | fila 3: footer */
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main"
+      "footer  footer";
+  }
+
   /* Header (imagen completa, sin deformar) */
   header {
     grid-area: header;
@@ -101,12 +103,41 @@
   }
 
   .form h2 { margin: 0 0 12px; text-align: center; }
-  .form input, .form button {
+
+  /* ---------- NUEVO: estilos para inputs y alineación de checks ---------- */
+  .form label { display:block; margin:6px 0; font-size:14px; }
+  .form input, .form button, .form textarea, .form select {
     width: 100%; padding: 10px; margin: 8px 0;
     border-radius: 8px; border: 1px solid #d6d6d6; box-sizing: border-box;
+    font-size: 14px;
   }
+  .form .checks { margin: 6px 0; }
+  .form .checks label {
+    display: flex; align-items: center; gap: 8px;
+    margin: 6px 0; cursor: pointer;
+  }
+  .form input[type="checkbox"], .form input[type="radio"] {
+    width: auto; padding: 0; margin: 0;
+    transform: scale(1.15);
+  }
+
   .form button { background:#1677ff; color:#fff; border:none; cursor:pointer; }
   .form button:hover { filter: brightness(.95); }
+
+  /* ---------- NUEVO: grillas auxiliares y contenedores ---------- */
+  .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .grid-3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; }
+  .wrap  { display:flex; flex-wrap:wrap; gap:12px 18px; }
+  .radio-line { display:flex; gap:16px; align-items:center; margin:6px 0 8px; }
+
+  /* ---------- NUEVO: tarjetas condicionales (Sí/No) ---------- */
+  .cond {
+    border:1px solid #e6e9f0; border-radius:10px;
+    padding:12px; margin:14px 0; background:#fafbfe;
+  }
+  .cond legend { font-weight:600; padding:0 6px; }
+  .cond-content { display:none; margin-top:8px; animation: fade .15s ease-in; }
+  @keyframes fade { from{opacity:0} to{opacity:1} }
 
   /* Footer */
   footer {
@@ -119,10 +150,9 @@
     height: auto;          /* mantiene proporción */
   }
 
-  /* Responsivo extra en móviles muy pequeños */
+  /* Responsivo extra en móviles muy pequeños (CORREGIDO) */
   @media (max-width: 700px) {
     .layout {
-     .grid-2, .grid-3 { grid-template-columns: 1fr; }
       grid-template-columns: 1fr;         /* apilar sidebar abajo del header */
       grid-template-areas:
         "header"
@@ -130,6 +160,8 @@
         "footer";
     }
     aside { display: none; }               /* oculta lateral si no cabe */
+
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
