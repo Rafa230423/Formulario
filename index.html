@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+2<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
@@ -120,8 +120,9 @@
   }
 
   /* Responsivo extra en móviles muy pequeños */
-  @media (max-width: 900px) {
+  @media (max-width: 700px) {
     .layout {
+     .grid-2, .grid-3 { grid-template-columns: 1fr; }
       grid-template-columns: 1fr;         /* apilar sidebar abajo del header */
       grid-template-areas:
         "header"
@@ -132,6 +133,39 @@
   }
 </style>
 </head>
+  <script>
+  // Mostrar/ocultar secciones condicionales por Sí/No
+  (function(){
+    function toggleSection(group, show){
+      document.querySelectorAll('[data-content="'+group+'"]').forEach(el=>{
+        el.style.display = show ? 'block' : 'none';
+      });
+    }
+    // Estado inicial (No -> oculto)
+    ['video','reel','linea','aprob'].forEach(g => toggleSection(g, false));
+
+    document.querySelectorAll('[data-toggle]').forEach(line=>{
+      const group = line.getAttribute('data-toggle');
+      line.addEventListener('change', (e)=>{
+        if(e.target.name === group && e.target.type === 'radio'){
+          toggleSection(group, e.target.value === 'si');
+        }
+      });
+      // Soporte: clic en el label también dispara
+      line.querySelectorAll('input[type="radio"]').forEach(r=>{
+        r.addEventListener('click', (e)=>{
+          toggleSection(group, e.target.value === 'si');
+        });
+      });
+    });
+
+    // (Opcional) Evitar submit real durante pruebas
+    document.getElementById('form-digital').addEventListener('submit', (e)=>{
+      // e.preventDefault(); // quítalo cuando integres backend
+    });
+  })();
+</script>
+
 <body>
   <div class="layout">
     <header>
@@ -145,85 +179,200 @@
     <main>
       <div class="content-frame">
         <div class="form-slot">
-          <div class="form">
-  <h2>Solicitud de Comunicación Digital</h2>
-  <form>
-    <label>Nombre y cargo del solicitante:</label>
-    <input type="text" name="nombre" placeholder="Escriba su nombre y cargo" />
+         <div class="form">
+  <h2>Solicitud – Comunicación Digital</h2>
 
-    <label>Correo y extensión:</label>
-    <input type="email" name="correo" placeholder="Ejemplo@dominio.com" />
+  <form id="form-digital">
+    <!-- Identificación -->
+    <label>Nombre y cargo del solicitante</label>
+    <input type="text" name="solicitante" placeholder="Nombre Apellido – Cargo" required>
 
-    <label>Dirección:</label>
-    <input type="text" name="direccion" />
+    <label>Correo y extensión</label>
+    <input type="email" name="correo" placeholder="nombre@ogtic.gob.do | Ext. 0000" required>
 
-    <label>Departamento:</label>
-    <input type="text" name="departamento" />
+    <label>Dirección</label>
+    <input type="text" name="direccion" placeholder="Dirección/Área">
 
-    <h3>Tipo de solicitud:</h3>
-    <label><input type="checkbox" name="tipo[]" value="campaña"> Campaña en redes sociales</label><br>
-    <label><input type="checkbox" name="tipo[]" value="publicacion"> Publicación en redes sociales</label><br>
-    <label><input type="checkbox" name="tipo[]" value="otro"> Otro</label><br>
+    <label>Departamento</label>
+    <input type="text" name="departamento" placeholder="Departamento solicitante">
 
-    <h3>Objetivo de la solicitud:</h3>
-    <textarea name="objetivo" rows="3"></textarea>
+    <!-- Tipo de solicitud -->
+    <h3>Tipo de solicitud</h3>
+    <div class="checks">
+      <label><input type="checkbox" name="tipo[]" value="campana"> Campaña de comunicación en redes</label>
+      <label><input type="checkbox" name="tipo[]" value="publicacion"> Publicación en redes</label>
+      <label><input type="checkbox" name="tipo[]" value="otro"> Otro (especificar en observaciones)</label>
+    </div>
 
-    <h3>Público objetivo:</h3>
-    <label><input type="checkbox" name="publico[]" value="ciudadanos"> Ciudadanos en general</label><br>
-    <label><input type="checkbox" name="publico[]" value="instituciones"> Instituciones</label><br>
-    <label><input type="checkbox" name="publico[]" value="privado"> Sector privado</label><br>
-    <label><input type="checkbox" name="publico[]" value="jovenes"> Jóvenes (secundaria, bachiller, universitarios)</label><br>
-    <label><input type="checkbox" name="publico[]" value="envejecientes"> Envejecientes</label><br>
+    <!-- Proyecto / Objetivo -->
+    <label>Proyecto o iniciativa vinculada</label>
+    <input type="text" name="proyecto" placeholder="Nombre del proyecto/iniciativa" required>
 
-    <h3>Mensaje a posicionar:</h3>
-    <textarea name="mensaje" rows="3"></textarea>
+    <label>Objetivo de la solicitud (¿qué se busca lograr?)</label>
+    <textarea name="objetivo" rows="3" placeholder="Ej.: Informar sobre..., posicionar..., convocar a..."></textarea>
 
-    <h3>Impacto esperado:</h3>
-    <textarea name="impacto" rows="3"></textarea>
+    <!-- Público objetivo -->
+    <h3>Público objetivo</h3>
+    <div class="checks">
+      <label><input type="checkbox" name="publico[]" value="ciudadania"> Ciudadanos en general</label>
+      <label><input type="checkbox" name="publico[]" value="instituciones"> Instituciones</label>
+      <label><input type="checkbox" name="publico[]" value="privado"> Sector privado</label>
+      <label><input type="checkbox" name="publico[]" value="jovenes-vulnerables"> Jóvenes vulnerables</label>
+      <label><input type="checkbox" name="publico[]" value="jovenes-secundaria"> Jóvenes de secundaria</label>
+      <label><input type="checkbox" name="publico[]" value="jovenes-bachiller"> Jóvenes de bachiller</label>
+      <label><input type="checkbox" name="publico[]" value="jovenes-universitarios"> Jóvenes universitarios</label>
+      <label><input type="checkbox" name="publico[]" value="envejecientes"> Envejecientes</label>
+    </div>
 
-    <h3>Canales digitales de publicación:</h3>
-    <label><input type="checkbox" name="canales[]" value="instagram"> Instagram</label>
-    <label><input type="checkbox" name="canales[]" value="facebook"> Facebook</label>
-    <label><input type="checkbox" name="canales[]" value="tiktok"> TikTok</label>
-    <label><input type="checkbox" name="canales[]" value="linkedin"> LinkedIn</label>
-    <label><input type="checkbox" name="canales[]" value="twitter"> X/Twitter</label>
-    <label><input type="checkbox" name="canales[]" value="youtube"> YouTube</label>
-    <label><input type="checkbox" name="canales[]" value="web"> Portal Web</label><br><br>
+    <!-- Mensaje / Impacto / Keywords -->
+    <label>Mensaje a posicionar</label>
+    <textarea name="mensaje" rows="3" placeholder="Idea fuerza o claim principal"></textarea>
 
-    <h2>Producción Audiovisual</h2>
+    <label>Impacto esperado (en ciudadanía/instituciones/Estado)</label>
+    <textarea name="impacto" rows="3" placeholder="Ej.: Ahorro de tiempo, transparencia, cercanía, etc."></textarea>
 
-    <h3>Tipo de producción requerida:</h3>
-    <label><input type="checkbox" name="produccion[]" value="institucional"> Video institucional</label><br>
-    <label><input type="checkbox" name="produccion[]" value="evento"> Cobertura de evento</label><br>
-    <label><input type="checkbox" name="produccion[]" value="reel"> Reel dinámico</label><br>
-    <label><input type="checkbox" name="produccion[]" value="testimonio"> Testimonio/entrevista</label><br>
-    <label><input type="checkbox" name="produccion[]" value="animacion"> Animación</label><br>
-    <label><input type="checkbox" name="produccion[]" value="fotografia"> Fotografía institucional</label><br>
+    <label>Palabras clave del proyecto</label>
+    <input type="text" name="keywords" placeholder="Ej.: interoperabilidad, puntos GOB, ENIA">
 
-    <h3>Objetivo del material:</h3>
-    <label><input type="checkbox" name="objetivoMaterial[]" value="informar"> Informar</label>
-    <label><input type="checkbox" name="objetivoMaterial[]" value="sensibilizar"> Sensibilizar</label>
-    <label><input type="checkbox" name="objetivoMaterial[]" value="promocionar"> Promocionar</label>
-    <label><input type="checkbox" name="objetivoMaterial[]" value="capacitar"> Capacitar</label><br><br>
+    <!-- Canales -->
+    <h3>Canales de publicación</h3>
+    <div class="checks wrap">
+      <label><input type="checkbox" name="canales[]" value="instagram"> Instagram</label>
+      <label><input type="checkbox" name="canales[]" value="facebook"> Facebook</label>
+      <label><input type="checkbox" name="canales[]" value="tiktok"> TikTok</label>
+      <label><input type="checkbox" name="canales[]" value="linkedin"> LinkedIn</label>
+      <label><input type="checkbox" name="canales[]" value="x"> X/Twitter</label>
+      <label><input type="checkbox" name="canales[]" value="youtube"> YouTube</label>
+      <label><input type="checkbox" name="canales[]" value="web"> Portal Web</label>
+    </div>
 
-    <h3>Idea principal o guion:</h3>
-    <textarea name="guion" rows="3"></textarea>
+    <!-- Lenguaje -->
+    <h3>Lenguaje de la comunicación</h3>
+    <div class="checks wrap">
+      <label><input type="checkbox" name="tono[]" value="formal"> Formal</label>
+      <label><input type="checkbox" name="tono[]" value="semiformal"> Semiformal</label>
+      <label><input type="checkbox" name="tono[]" value="divertida"> Divertida</label>
+      <label><input type="checkbox" name="tono[]" value="informativo"> Informativo</label>
+      <label><input type="checkbox" name="tono[]" value="motivador"> Motivador</label>
+      <label><input type="checkbox" name="tono[]" value="cercano"> Cercano</label>
+    </div>
 
-    <h3>Detalles del contenido:</h3>
-    <label>Duración estimada:</label>
-    <input type="text" name="duracion" placeholder="Ej: 30s, 1min" /><br>
-    <label>Formato requerido:</label>
-    <input type="text" name="formato" placeholder="Horizontal, vertical, 4K..." /><br>
+    <!-- Formatos -->
+    <h3>Formato de la publicación</h3>
+    <div class="checks">
+      <label><input type="checkbox" name="formatos[]" value="estatica"> Publicación estática</label>
+      <label><input type="checkbox" name="formatos[]" value="animada"> Publicación animada</label>
+      <label><input type="checkbox" name="formatos[]" value="carrusel"> Carrusel</label>
+      <label><input type="checkbox" name="formatos[]" value="meme"> Meme</label>
+    </div>
 
-    <h3>Logística de producción:</h3>
-    <label>Fecha estimada de grabación:</label>
-    <input type="date" name="fecha" /><br>
-    <label>Lugar de grabación:</label>
-    <input type="text" name="lugar" /><br>
+    <!-- Condicional: Video -->
+    <fieldset class="cond">
+      <legend>¿Publicación de video?</legend>
+      <div class="radio-line" data-toggle="video">
+        <label><input type="radio" name="video" value="si"> Sí</label>
+        <label><input type="radio" name="video" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="video">
+        <div class="grid-2">
+          <div>
+            <label>Tiempo de reproducción</label>
+            <input type="text" name="video_tiempo" placeholder="Ej.: 15s, 30s, 60s">
+          </div>
+          <div>
+            <label>Cantidad de piezas</label>
+            <input type="number" min="1" name="video_cantidad" placeholder="Ej.: 2">
+          </div>
+        </div>
+        <label>Idea central del video</label>
+        <textarea name="video_idea" rows="2" placeholder="Resumen del guion/idea"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- Condicional: Reel -->
+    <fieldset class="cond">
+      <legend>¿Publicación de reel?</legend>
+      <div class="radio-line" data-toggle="reel">
+        <label><input type="radio" name="reel" value="si"> Sí</label>
+        <label><input type="radio" name="reel" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="reel">
+        <div class="grid-2">
+          <div>
+            <label>Tiempo de reproducción</label>
+            <input type="text" name="reel_tiempo" placeholder="Ej.: 15s, 30s">
+          </div>
+          <div>
+            <label>Cantidad de reel</label>
+            <input type="number" min="1" name="reel_cantidad" placeholder="Ej.: 3">
+          </div>
+        </div>
+        <label>Idea central del reel</label>
+        <textarea name="reel_idea" rows="2" placeholder="Hook, estructura, cierre"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- Fechas -->
+    <h3>Fechas</h3>
+    <div class="grid-3">
+      <div>
+        <label>Fecha de solicitud</label>
+        <input type="date" name="fecha_solicitud" required>
+      </div>
+      <div>
+        <label>Fecha límite (si aplica)</label>
+        <input type="date" name="fecha_limite">
+      </div>
+      <div>
+        <label>Total de publicaciones</label>
+        <input type="number" min="1" name="total_publicaciones" placeholder="Ej.: 5">
+      </div>
+    </div>
+
+    <!-- Condicional: Línea gráfica -->
+    <fieldset class="cond">
+      <legend>¿Tendrá línea gráfica determinada?</legend>
+      <div class="radio-line" data-toggle="linea">
+        <label><input type="radio" name="linea" value="si"> Sí</label>
+        <label><input type="radio" name="linea" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="linea">
+        <label>Adjuntar referencias (logos/guía)</label>
+        <input type="file" name="linea_archivos" multiple>
+        <label>Notas sobre la línea gráfica</label>
+        <textarea name="linea_notas" rows="2" placeholder="Colores, tipografías, restricciones"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- Instituciones relacionadas -->
+    <label>Instituciones o empresas relacionadas</label>
+    <textarea name="instituciones" rows="2" placeholder="Nombres y redes sociales"></textarea>
+
+    <!-- Condicional: Aprobaciones -->
+    <fieldset class="cond">
+      <legend>¿Requiere aprobaciones previas?</legend>
+      <div class="radio-line" data-toggle="aprob">
+        <label><input type="radio" name="aprob" value="si"> Sí</label>
+        <label><input type="radio" name="aprob" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="aprob">
+        <label>¿Quién aprueba? (director/encargado/institución)</label>
+        <input type="text" name="aprueba_quien" placeholder="Nombre y cargo / Institución">
+      </div>
+    </fieldset>
+
+    <!-- Anexos -->
+    <h3>Anexar materiales de apoyo</h3>
+    <input type="file" name="anexos" multiple>
+
+    <!-- Observaciones -->
+    <label>Observaciones adicionales</label>
+    <textarea name="observaciones" rows="3" placeholder="Comentarios o notas específicas"></textarea>
 
     <button type="submit">Enviar solicitud</button>
   </form>
 </div>
+
 
         </div>
       </div>
