@@ -173,6 +173,18 @@
   /*    -------------------------------------------------------------------------    */
 </head>
   <script>
+    function descargarFormularioRTF(){
+  const rtf = `{\rtf1\ansi ... tu contenido aquí ... }`;
+  const blob = new Blob([rtf], {type: 'application/rtf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Formulario_Comunicacion_Digital.rtf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
   // Mostrar/ocultar secciones condicionales por Sí/No
   (function(){
     function toggleSection(group, show){
@@ -487,9 +499,9 @@ ____________________________________________________________\par
 
     <button type="submit">Enviar solicitud</button>
     
-    <a class="btn-download" href="assets/Formulario_Comunicacion_Digital.rtf" download>
+ <button type="button" onclick="descargarFormularioRTF()">
   Descargar formulario (Word)
-</a>
+</button>
 
   </form>
 </div>
