@@ -241,19 +241,15 @@ html, body {
 .btn-download {
   display: inline-block;
   margin-top: 12px;
-  padding: 10px 14px;
-  border-radius: var(--radius);
-  background: var(--color-primary);
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1677ff;
   color: #fff;
-  text-decoration: none;
   font-weight: 600;
-  border: none;
-  cursor: pointer;
-  text-align: center;
+  text-decoration: none;
 }
-
 .btn-download:hover {
-  filter: brightness(.93);
+  filter: brightness(.9);
 }
 
 /* ==========================
@@ -564,8 +560,9 @@ ____________________________________________________________\par
     <label>Observaciones</label><textarea rows="3"></textarea>
 
     <!-- Botones -->
-    <button type="submit">Enviar solicitud</button>
-    <button type="button" onclick="descargarFormularioRTF()">Descargar formulario (Word)</button>
+    <a class="btn-download" href="Formulario_Comunicacion_Digital.docx" download>
+  Descargar formulario (Word)
+</a>
 
   </form>
 </div>
