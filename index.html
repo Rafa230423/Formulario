@@ -163,7 +163,14 @@
 
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
   }
+  .btn-download{
+  display:inline-block; padding:10px 14px; border-radius:10px;
+  background:#1677ff; color:#fff; text-decoration:none; font-weight:600;
+}
+.btn-download:hover{ filter:brightness(.95); }
+
 </style>
+  /*    -------------------------------------------------------------------------    */
 </head>
   <script>
   // Mostrar/ocultar secciones condicionales por Sí/No
@@ -196,8 +203,85 @@
       // e.preventDefault(); // quítalo cuando integres backend
     });
   })();
+    function descargarFormularioRTF(){
+  // Contenido RTF (puedes reemplazarlo por tu versión completa)
+  const rtf = String.raw`{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\fs24
+\b Solicitud – Comunicación Digital \b0\par\par
+\b Identificación \b0\par
+Nombre y cargo del solicitante:\tab ______________________________________________\par
+Correo y extensión:\tab ______________________________________________\par
+Dirección:\tab ______________________________________________\par
+Departamento:\tab ______________________________________________\par\par
+\b Tipo de solicitud \b0\par
+\u9744?\~ Campaña en redes \par
+\u9744?\~ Publicación en redes \par
+\u9744?\~ Otro: ______________________________________ \par\par
+\b Proyecto o iniciativa vinculada \b0\par
+____________________________________________________________\par\par
+\b Objetivo de la solicitud \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Público objetivo \b0\par
+\u9744?\~ Ciudadanos \tab \u9744?\~ Instituciones \tab \u9744?\~ Sector privado \par
+\u9744?\~ Jóvenes vulnerables \tab \u9744?\~ Secundaria \tab \u9744?\~ Bachiller \tab \u9744?\~ Universitarios \par
+\u9744?\~ Envejecientes \par\par
+\b Mensaje a posicionar \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Impacto esperado \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Palabras clave \b0\par
+____________________________________________________________\par\par
+\b Canales \b0\par
+\u9744?\~ Instagram \tab \u9744?\~ Facebook \tab \u9744?\~ TikTok \par
+\u9744?\~ LinkedIn \tab \u9744?\~ X/Twitter \tab \u9744?\~ YouTube \tab \u9744?\~ Portal Web \par\par
+\b Lenguaje \b0\par
+\u9744?\~ Formal \tab \u9744?\~ Semiformal \tab \u9744?\~ Divertida \tab \u9744?\~ Informativo \tab \u9744?\~ Motivador \tab \u9744?\~ Cercano \par\par
+\b Formato \b0\par
+\u9744?\~ Estática \par
+\u9744?\~ Animada \par
+\u9744?\~ Carrusel \par
+\u9744?\~ Meme \par\par
+\b ¿Video? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Tiempo: __________ \tab Cantidad: ______ \par
+Idea:\par
+____________________________________________________________\par\par
+\b ¿Reel? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Tiempo: __________ \tab Cantidad: ______ \par
+Idea:\par
+____________________________________________________________\par\par
+\b Fechas \b0\par
+Solicitud: __________ \tab Límite: __________ \tab Total: ______ \par\par
+\b ¿Línea gráfica? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Notas:\par
+____________________________________________________________\par\par
+\b Instituciones relacionadas \b0\par
+____________________________________________________________\par\par
+\b ¿Aprobaciones previas? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+¿Quién?: ______________________________________________\par\par
+\b Anexos \b0\par
+(Documentos, imágenes, logos, etc.)\par\par
+\b Observaciones \b0\par
+____________________________________________________________\par
+____________________________________________________________\par
+}`;
+
+  const blob = new Blob([rtf], {type: 'application/rtf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Formulario_Comunicacion_Digital.rtf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 </script>
 
+  /*    -------------------------------------------------------------------------    */
 <body>
   <div class="layout">
     <header>
