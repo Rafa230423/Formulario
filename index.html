@@ -98,13 +98,14 @@ html, body {
 ========================== */
 .form {
   width: min(var(--form-w), 95%);
-  height: var(--form-h);
+  max-height: 90vh;        /* límite máximo de alto */
   background: var(--color-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 24px;
-  overflow-y: auto;
+  overflow-y: auto;        /* scroll interno */
 }
+ 
 
 .form h2 {
   text-align: center;
