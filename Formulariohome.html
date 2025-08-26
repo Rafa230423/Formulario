@@ -7,22 +7,15 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #f5f5f5;
+      background-color: #edf1f7; /* Fondo general */
     }
 
-    /* Top */
-    .top {
-      width: 100%;
-      display: block;
-    }
-
-    /* Contenedor de top + left */
-    .top-left-container {
+    /* Contenedor de izquierda + top */
+    .left-top-container {
       display: flex;
       align-items: flex-start;
-      background-color: #fff;
-      padding: 10px;
-      gap: 10px;
+      padding: 20px;
+      gap: 20px;
     }
 
     .left {
@@ -30,13 +23,20 @@
       flex-shrink: 0;
     }
 
-    /* Cuadro gris */
+    .top {
+      width: 100%;
+      max-width: 600px; /* Ajusta según tu diseño */
+      height: auto;
+    }
+
+    /* Cuadro blanco para selector de formularios */
     .form-selector {
-      background-color: #e0e0e0;
+      background-color: #ffffff;
       padding: 20px;
       border-radius: 8px;
-      margin: 20px;
+      margin: 20px auto;
       max-width: 500px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .form-selector h2 {
@@ -70,38 +70,37 @@
     }
 
     /* Responsivo */
-    @media (max-width: 600px) {
-      .top-left-container {
+    @media (max-width: 700px) {
+      .left-top-container {
         flex-direction: column;
         align-items: center;
       }
 
-      .left {
+      .left, .top {
         width: 100%;
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top -->
-  <img src="img/top.png" alt="Top OGTIC" class="top">
-
-  <!-- Contenedor Top + Left -->
-  <div class="top-left-container">
+  <!-- Contenedor Left + Top -->
+  <div class="left-top-container">
     <img src="img/left.png" alt="Imagen izquierda" class="left">
+    <img src="img/top.png" alt="Top OGTIC" class="top">
+  </div>
 
-    <!-- Selector de Formularios -->
-    <div class="form-selector">
-      <h2>Seleccione un formulario:</h2>
-      <ul>
-        <li><a href="https://rafa230423.github.io/Formulario/" target="_blank">Comunicación Digital</a></li>
-        <li><a href="#" target="_blank">Audiovisual</a></li>
-        <li><a href="#" target="_blank">Prensa</a></li>
-        <li><a href="#" target="_blank">Evento y Protocolo</a></li>
-        <li><a href="#" target="_blank">Comunicación Interna</a></li>
-      </ul>
-    </div>
+  <!-- Selector de Formularios -->
+  <div class="form-selector">
+    <h2>Seleccione un formulario:</h2>
+    <ul>
+      <li><a href="https://rafa230423.github.io/Formulario/" target="_blank">Comunicación Digital</a></li>
+      <li><a href="#" target="_blank">Audiovisual</a></li>
+      <li><a href="#" target="_blank">Prensa</a></li>
+      <li><a href="#" target="_blank">Evento y Protocolo</a></li>
+      <li><a href="#" target="_blank">Comunicación Interna</a></li>
+    </ul>
   </div>
 
   <!-- Footer -->
