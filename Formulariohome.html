@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vista armada por secciones</title>
+<style>
+   /* ==========================
+   Layout general
+========================== */
+.layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 250px 1fr;    /* left fijo, main ocupa el resto */
+  grid-template-rows: auto 1fr auto;   /* header arriba, contenido al centro, footer abajo */
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main"
+    "footer  footer";
+}
+
+/* Header */
+header {
+  grid-area: header;
+  background: #0b1830;
+}
+.header-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sidebar (left) */
+aside {
+  grid-area: sidebar;
+  background: #0b1830;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.left-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Main (formulario centrado) */
+main {
+  grid-area: main;
+  background: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Footer */
+footer {
+  grid-area: footer;
+  background: #0b1830;
+}
+.footer-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ==========================
+   Variables principales
+========================== */
+:root {
+  --form-w: 800px;         /* ancho máximo del formulario */
+  --form-h: 95%;           /* altura máxima */
+  --color-bg: #eef3fa;     /* fondo principal */
+  --color-card: #ffffff;   /* fondo tarjeta formulario */
+  --color-primary: #1677ff;/* azul principal */
+  --color-border: #d6d6d6; /* gris de bordes */
+  --color-light: #fafbfe;  /* fondo de condicionales */
+  --radius: 12px;          /* radios redondeados */
+  --shadow: 0 12px 30px rgba(0,0,0,.15);
+  --transition: all .2s ease-in-out;
+}
+
+/* ==========================
+   Reset básico
+========================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--color-bg);
+  color: #222;
+}
+
+/* ==========================
+   Contenedor del formulario
+========================== */
+.form {
+  width: min(var(--form-w), 95%);
+  max-height: 50vh;        /* límite máximo de alto */
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  overflow-y: auto;        /* scroll interno */
+}
+ 
+
+.form h2 {
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.form h3 {
+  margin: 20px 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form label {
+  display: block;
+  margin: 6px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ==========================
+   Inputs y campos básicos
+========================== */
+.form input,
+.form textarea,
+.form select,
+.form button {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 4px rgba(22,119,255,0.3);
+}
+
+/* ==========================
+   Botones
+========================== */
+.form button {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.form button:hover {
+  filter: brightness(.93);
+}
+
+/* ==========================
+   Checkboxes y radios
+========================== */
+.checks label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.form input[type="checkbox"],
+.form input[type="radio"] {
+  width: auto;
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
+/* ==========================
+   Grillas auxiliares
+========================== */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.radio-line {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 6px 0 8px;
+}
+
+/* ==========================
+   Secciones condicionales
+========================== */
+.cond {
+  border: 1px solid #e6e9f0;
+  border-radius: var(--radius);
+  padding: 12px;
+  margin: 16px 0;
+  background: var(--color-light);
+}
+
+.cond legend {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.cond-content {
+  display: none;
+  margin-top: 10px;
+  animation: fade .25s ease-in;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================
+   Botón secundario (descarga)
+========================== */
+.btn-download {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1677ff;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.btn-download:hover {
+  filter: brightness(.9);
+}
+
+/* ==========================
+   Responsivo
+========================== */
+@media (max-width: 700px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .form {
+    height: auto;
+    max-height: 95%;
+  }
+}
+</style>
+  
+</head>
+  <script>
+    function descargarFormularioRTF(){
+  const rtf = `{\rtf1\ansi ... tu contenido aquí ... }`;
+  const blob = new Blob([rtf], {type: 'application/rtf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Formulario_Comunicacion_Digital.rtf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+  // Mostrar/ocultar secciones condicionales por Sí/No
+  (function(){
+    function toggleSection(group, show){
+      document.querySelectorAll('[data-content="'+group+'"]').forEach(el=>{
+        el.style.display = show ? 'block' : 'none';
+      });
+    }
+    // Estado inicial (No -> oculto)
+    ['video','reel','linea','aprob'].forEach(g => toggleSection(g, false));
+
+    document.querySelectorAll('[data-toggle]').forEach(line=>{
+      const group = line.getAttribute('data-toggle');
+      line.addEventListener('change', (e)=>{
+        if(e.target.name === group && e.target.type === 'radio'){
+          toggleSection(group, e.target.value === 'si');
+        }
+      });
+      // Soporte: clic en el label también dispara
+      line.querySelectorAll('input[type="radio"]').forEach(r=>{
+        r.addEventListener('click', (e)=>{
+          toggleSection(group, e.target.value === 'si');
+        });
+      });
+    });
+
+    // (Opcional) Evitar submit real durante pruebas
+    document.getElementById('form-digital').addEventListener('submit', (e)=>{
+      // e.preventDefault(); // quítalo cuando integres backend
+    });
+  })();
+    function descargarFormularioRTF(){
+  // Contenido RTF (puedes reemplazarlo por tu versión completa)
+  const rtf = String.raw`{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\fs24
+\b Solicitud – Comunicación Digital \b0\par\par
+\b Identificación \b0\par
+Nombre y cargo del solicitante:\tab ______________________________________________\par
+Correo y extensión:\tab ______________________________________________\par
+Dirección:\tab ______________________________________________\par
+Departamento:\tab ______________________________________________\par\par
+\b Tipo de solicitud \b0\par
+\u9744?\~ Campaña en redes \par
+\u9744?\~ Publicación en redes \par
+\u9744?\~ Otro: ______________________________________ \par\par
+\b Proyecto o iniciativa vinculada \b0\par
+____________________________________________________________\par\par
+\b Objetivo de la solicitud \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Público objetivo \b0\par
+\u9744?\~ Ciudadanos \tab \u9744?\~ Instituciones \tab \u9744?\~ Sector privado \par
+\u9744?\~ Jóvenes vulnerables \tab \u9744?\~ Secundaria \tab \u9744?\~ Bachiller \tab \u9744?\~ Universitarios \par
+\u9744?\~ Envejecientes \par\par
+\b Mensaje a posicionar \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Impacto esperado \b0\par
+____________________________________________________________\par
+____________________________________________________________\par\par
+\b Palabras clave \b0\par
+____________________________________________________________\par\par
+\b Canales \b0\par
+\u9744?\~ Instagram \tab \u9744?\~ Facebook \tab \u9744?\~ TikTok \par
+\u9744?\~ LinkedIn \tab \u9744?\~ X/Twitter \tab \u9744?\~ YouTube \tab \u9744?\~ Portal Web \par\par
+\b Lenguaje \b0\par
+\u9744?\~ Formal \tab \u9744?\~ Semiformal \tab \u9744?\~ Divertida \tab \u9744?\~ Informativo \tab \u9744?\~ Motivador \tab \u9744?\~ Cercano \par\par
+\b Formato \b0\par
+\u9744?\~ Estática \par
+\u9744?\~ Animada \par
+\u9744?\~ Carrusel \par
+\u9744?\~ Meme \par\par
+\b ¿Video? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Tiempo: __________ \tab Cantidad: ______ \par
+Idea:\par
+____________________________________________________________\par\par
+\b ¿Reel? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Tiempo: __________ \tab Cantidad: ______ \par
+Idea:\par
+____________________________________________________________\par\par
+\b Fechas \b0\par
+Solicitud: __________ \tab Límite: __________ \tab Total: ______ \par\par
+\b ¿Línea gráfica? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+Notas:\par
+____________________________________________________________\par\par
+\b Instituciones relacionadas \b0\par
+____________________________________________________________\par\par
+\b ¿Aprobaciones previas? \b0  \u9744?\~ Sí \tab \u9744?\~ No \par
+¿Quién?: ______________________________________________\par\par
+\b Anexos \b0\par
+(Documentos, imágenes, logos, etc.)\par\par
+\b Observaciones \b0\par
+____________________________________________________________\par
+____________________________________________________________\par
+}`;
+
+  const blob = new Blob([rtf], {type: 'application/rtf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Formulario_Comunicacion_Digital.rtf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+
+<body>
+  <div class="layout">
+    <header>
+      <img class="header-img" src="img/top.png" alt="Top" />
+    </header>
+
+    <aside>
+      <img class="left-img" src="img/left.png" alt="Lateral izquierdo" />
+    </aside>
+
+    <main>
+      <div class="content-frame">
+        <div class="form-slot">
+         <div class="form">
+<h2>Solicitud – Comunicación Digital</h2>
+  <form id="form-digital">
+    
+    <!-- Identificación -->
+    <label>Nombre y cargo del solicitante</label>
+    <input type="text" name="solicitante" placeholder= "Ej. Juan Perez" required>
+    <label>Correo y extensión</label>
+    <input type="email" name="correo" placeholder= "Ej. Juan.Perez@ogtic.gob.do"required>
+    <label>Dirección</label>
+    <input type="text" name="direccion" placeholder="Dirección/Área">
+    <label>Departamento</label>
+    <input type="text" name="departamento" placeholder="Departamento solicitante">
+
+    <!-- Tipo de solicitud -->
+    <h3>Tipo de solicitud</h3>
+    <div class="checks">
+      <label><input type="checkbox" name="tipo[]" value="campana"> Campaña en redes</label>
+      <label><input type="checkbox" name="tipo[]" value="publicacion"> Publicación en redes</label>
+      <label><input type="checkbox" name="tipo[]" value="otro"> Otro (especificar)</label>
+    </div>
+
+    <!-- Proyecto / Objetivo -->
+    <label>Proyecto o iniciativa vinculada</label>
+    <input type="text" name="proyecto">
+    <label>Objetivo de la solicitud</label>
+    <textarea name="objetivo" rows="2"></textarea>
+
+    <!-- Público objetivo -->
+    <h3>Público objetivo</h3>
+    <div class="checks">
+      <label><input type="checkbox" value="ciudadania"> Ciudadanos</label>
+      <label><input type="checkbox" value="instituciones"> Instituciones</label>
+      <label><input type="checkbox" value="privado"> Sector privado</label>
+      <label><input type="checkbox" value="jovenes"> Jóvenes</label>
+      <label><input type="checkbox" value="envejecientes"> Envejecientes</label>
+    </div>
+
+    <!-- Mensaje -->
+    <label>Mensaje a posicionar</label>
+    <textarea name="mensaje" rows="2"></textarea>
+    <label>Impacto esperado</label>
+    <textarea name="impacto" rows="2"></textarea>
+    <label>Palabras clave</label>
+    <input type="text" name="keywords">
+
+    <!-- Canales -->
+    <h3>Canales de publicación</h3>
+    <div class="checks">
+      <label><input type="checkbox" value="instagram"> Instagram</label>
+      <label><input type="checkbox" value="facebook"> Facebook</label>
+      <label><input type="checkbox" value="tiktok"> TikTok</label>
+      <label><input type="checkbox" value="linkedin"> LinkedIn</label>
+      <label><input type="checkbox" value="x"> X/Twitter</label>
+      <label><input type="checkbox" value="youtube"> YouTube</label>
+      <label><input type="checkbox" value="web"> Portal Web</label>
+    </div>
+
+    <!-- Lenguaje -->
+    <h3>Lenguaje</h3>
+    <div class="checks">
+      <label><input type="checkbox" value="formal"> Formal</label>
+      <label><input type="checkbox" value="semiformal"> Semiformal</label>
+      <label><input type="checkbox" value="divertida"> Divertida</label>
+      <label><input type="checkbox" value="informativo"> Informativo</label>
+      <label><input type="checkbox" value="motivador"> Motivador</label>
+      <label><input type="checkbox" value="cercano"> Cercano</label>
+    </div>
+
+    <!-- Condicionales -->
+    <fieldset class="cond">
+      <legend>¿Publicación de video?</legend>
+      <div class="radio-line" data-toggle="video">
+        <label><input type="radio" name="video" value="si"> Sí</label>
+        <label><input type="radio" name="video" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="video">
+        <label>Tiempo de reproducción</label><input type="text">
+        <label>Idea central</label><textarea rows="2"></textarea>
+        <label>Cantidad de piezas</label><input type="number" min="1">
+      </div>
+    </fieldset>
+
+    <fieldset class="cond">
+      <legend>¿Publicación de reel?</legend>
+      <div class="radio-line" data-toggle="reel">
+        <label><input type="radio" name="reel" value="si"> Sí</label>
+        <label><input type="radio" name="reel" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="reel">
+        <label>Tiempo de reproducción</label><input type="text">
+        <label>Idea central</label><textarea rows="2"></textarea>
+        <label>Cantidad de reels</label><input type="number" min="1">
+      </div>
+    </fieldset>
+
+    <fieldset class="cond">
+      <legend>¿Publicación de carrusel?</legend>
+      <div class="radio-line" data-toggle="carrusel">
+        <label><input type="radio" name="carrusel" value="si"> Sí</label>
+        <label><input type="radio" name="carrusel" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="carrusel">
+        <label>Cantidad de slides</label><input type="number" min="1">
+        <label>Observaciones</label><textarea rows="2"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="cond">
+      <legend>¿Publicación de memes?</legend>
+      <div class="radio-line" data-toggle="memes">
+        <label><input type="radio" name="memes" value="si"> Sí</label>
+        <label><input type="radio" name="memes" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="memes">
+        <label>Cantidad de memes</label><input type="number" min="1">
+        <label>Idea/tono sugerido</label><textarea rows="2"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="cond">
+      <legend>¿Tendrá línea gráfica?</legend>
+      <div class="radio-line" data-toggle="linea">
+        <label><input type="radio" name="linea" value="si"> Sí</label>
+        <label><input type="radio" name="linea" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="linea">
+        <label>Adjuntar material</label><input type="file" multiple>
+        <label>Notas</label><textarea rows="2"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="cond">
+      <legend>¿Requiere aprobaciones previas?</legend>
+      <div class="radio-line" data-toggle="aprob">
+        <label><input type="radio" name="aprob" value="si"> Sí</label>
+        <label><input type="radio" name="aprob" value="no" checked> No</label>
+      </div>
+      <div class="cond-content" data-content="aprob">
+        <label>¿Quién aprueba?</label><input type="text">
+      </div>
+    </fieldset>
+
+    <!-- Fechas -->
+    <h3>Fechas</h3>
+    <div class="grid-3">
+      <div><label>Fecha de solicitud</label><input type="date"></div>
+      <div><label>Fecha límite</label><input type="date"></div>
+      <div><label>Total publicaciones</label><input type="number" min="1"></div>
+    </div>
+
+    <!-- Anexos y Observaciones -->
+    <h3>Anexar materiales</h3>
+    <input type="file" multiple>
+    <label>Observaciones</label><textarea rows="3"></textarea>
+
+    <!-- Botones -->
+    <a class="btn-download" href="Formulario_Comunicacion_Digital.docx" download>
+  Descargar formulario (Word)
+</a>
+
+  </form>
+</div>
+
+<script>
+(function(){
+  function toggleSection(group, show){
+    document.querySelectorAll('[data-content="'+group+'"]').forEach(el=>{
+      el.style.display = show ? 'block' : 'none';
+    });
+  }
+  const grupos=['video','reel','carrusel','memes','linea','aprob'];
+  grupos.forEach(g=>toggleSection(g,false));
+  document.querySelectorAll('[data-toggle]').forEach(line=>{
+    const group=line.getAttribute('data-toggle');
+    line.addEventListener('change', e=>{
+      if(e.target.type==='radio' && e.target.name===group){
+        toggleSection(group, e.target.value==='si');
+      }
+    });
+  });
+})();
+
+function descargarFormularioRTF(){
+  const rtf = "{\\rtf1\\ansi\\deff0 ... aquí pondrías tu plantilla completa ... }";
+  const blob = new Blob([rtf], {type:'application/rtf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Formulario_Comunicacion_Digital.rtf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <img class="footer-img" src="img/footer.png" alt="Footer" />
+    </footer>
+  </div>
+</body>
+</html>
