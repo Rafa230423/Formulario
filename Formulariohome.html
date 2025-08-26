@@ -16,10 +16,13 @@
     }
 
     header {
-      background-color: #003876;
-      color: white;
-      padding: 20px;
       text-align: center;
+    }
+
+    header img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
     }
 
     .container {
@@ -67,11 +70,10 @@
       background-color: #0055a5;
     }
 
-    footer {
-      background-color: #003876;
-      color: white;
-      text-align: center;
-      padding: 15px;
+    footer img {
+      width: 100%;
+      max-height: 100px;
+      object-fit: cover;
     }
 
     @media (max-width: 768px) {
@@ -86,13 +88,15 @@
 </head>
 <body>
 
+  <!-- Top -->
   <header>
-    <h1>Bienvenido a los Formularios de la OGTIC</h1>
+    <img src="img/top.png" alt="Top OGTIC">
   </header>
 
+  <!-- Contenido principal -->
   <div class="container">
     <div class="img-left">
-      <img src="https://via.placeholder.com/300x400.png?text=Imagen+Formulario" alt="Imagen de formularios">
+      <img src="img/left.png" alt="Imagen izquierda">
     </div>
 
     <div class="form-list">
@@ -105,8 +109,9 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
-    © 2025 OGTIC - Todos los derechos reservados
+    <img src="img/footer.png" alt="Footer OGTIC">
   </footer>
 
 </body>
