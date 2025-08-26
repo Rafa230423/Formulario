@@ -92,179 +92,71 @@ html, body {
   background: var(--color-bg);
   color: #222;
 }
+   /* Contenedor de izquierda + top */
+    .left-top-container {
+      display: flex;
+      align-items: flex-start;
+      padding: 20px;
+      gap: 20px;
+    }
 
-/* ==========================
-   Contenedor del formulario
-========================== */
-.form {
-  width: min(var(--form-w), 95%);
-  max-height: 50vh;        /* límite máximo de alto */
-  background: var(--color-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  overflow-y: auto;        /* scroll interno */
-}
- 
+    .left {
+      width: 150px; /* Ajusta según tu diseño */
+      flex-shrink: 0;
+    }
 
-.form h2 {
-  text-align: center;
-  margin: 0 0 20px;
-  font-size: 22px;
-  font-weight: 700;
-}
+    .top {
+      width: 100%;
+      max-width: 600px; /* Ajusta según tu diseño */
+      height: auto;
+    }
 
-.form h3 {
-  margin: 20px 0 10px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
+    /* Cuadro blanco para selector de formularios */
+    .form-selector {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 500px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-.form label {
-  display: block;
-  margin: 6px 0;
-  font-size: 14px;
-  font-weight: 500;
-}
+    .form-selector h2 {
+      margin-top: 0;
+    }
 
-/* ==========================
-   Inputs y campos básicos
-========================== */
-.form input,
-.form textarea,
-.form select,
-.form button {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0 12px;
-  border-radius: var(--radius);
-  border: 1px solid var(--color-border);
-  box-sizing: border-box;
-  font-size: 14px;
-  transition: var(--transition);
-}
+    .form-selector ul {
+      list-style: none;
+      padding-left: 0;
+    }
 
-.form input:focus,
-.form textarea:focus,
-.form select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 4px rgba(22,119,255,0.3);
-}
+    .form-selector li {
+      margin-bottom: 10px;
+    }
 
-/* ==========================
-   Botones
-========================== */
-.form button {
-  background: var(--color-primary);
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
+    .form-selector a {
+      text-decoration: none;
+      color: #003876;
+      font-weight: bold;
+    }
 
-.form button:hover {
-  filter: brightness(.93);
-}
+    .form-selector a:hover {
+      text-decoration: underline;
+    }
 
-/* ==========================
-   Checkboxes y radios
-========================== */
-.checks label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  margin-bottom: 6px;
-}
 
-.form input[type="checkbox"],
-.form input[type="radio"] {
-  width: auto;
-  transform: scale(1.15);
-  cursor: pointer;
-}
+    /* Responsivo */
+    @media (max-width: 700px) {
+      .left-top-container {
+        flex-direction: column;
+        align-items: center;
+      }
 
-/* ==========================
-   Grillas auxiliares
-========================== */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.grid-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-}
-
-.radio-line {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin: 6px 0 8px;
-}
-
-/* ==========================
-   Secciones condicionales
-========================== */
-.cond {
-  border: 1px solid #e6e9f0;
-  border-radius: var(--radius);
-  padding: 12px;
-  margin: 16px 0;
-  background: var(--color-light);
-}
-
-.cond legend {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.cond-content {
-  display: none;
-  margin-top: 10px;
-  animation: fade .25s ease-in;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(-3px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ==========================
-   Botón secundario (descarga)
-========================== */
-.btn-download {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: #1677ff;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-.btn-download:hover {
-  filter: brightness(.9);
-}
-
-/* ==========================
-   Responsivo
-========================== */
-@media (max-width: 700px) {
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-  .form {
-    height: auto;
-    max-height: 95%;
-  }
-}
+      .left, .top {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
 </style>
   
 </head>
