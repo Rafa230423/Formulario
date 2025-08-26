@@ -2,104 +2,111 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Formularios</title>
+  <title>Formulario Home</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      background-color: #f5f5f5;
     }
 
-    /* Contenedor top + left */
-    .top-left {
-      display: flex;
+    /* Top */
+    .top {
       width: 100%;
-      background-color: #ffffff;
+      display: block;
+    }
+
+    /* Contenedor de top + left */
+    .top-left-container {
+      display: flex;
       align-items: flex-start;
-      flex-wrap: wrap;
+      background-color: #fff;
+      padding: 10px;
+      gap: 10px;
     }
 
-    .top-left .top-img {
-      flex: 3;
+    .left {
+      width: 150px; /* Ajusta según tu diseño */
+      flex-shrink: 0;
     }
 
-    .top-left .top-img img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
-
-    .top-left .left-img {
-      flex: 1;
-      max-width: 300px;
-      margin-left: 10px;
-    }
-
-    .top-left .left-img img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    /* Cuadro gris de selección */
-    .form-container {
-      background-color: #e0e0e0; /* gris claro */
-      margin: 20px auto;
+    /* Cuadro gris */
+    .form-selector {
+      background-color: #e0e0e0;
       padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
+      border-radius: 8px;
+      margin: 20px;
+      max-width: 500px;
     }
 
-    .form-container h2 {
-      color: #003876;
+    .form-selector h2 {
       margin-top: 0;
     }
 
-    .form-container a {
-      display: block;
-      margin: 10px 0;
-      padding: 12px 20px;
+    .form-selector ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .form-selector li {
+      margin-bottom: 10px;
+    }
+
+    .form-selector a {
       text-decoration: none;
-      background-color: #003876;
-      color: white;
-      border-radius: 6px;
-      transition: background 0.3s;
+      color: #003876;
+      font-weight: bold;
     }
 
-    .form-container a:hover {
-      background-color: #0055a5;
+    .form-selector a:hover {
+      text-decoration: underline;
     }
 
-    footer img {
+    /* Footer */
+    .footer {
       width: 100%;
-      max-height: 100px;
-      object-fit: cover;
       display: block;
+      margin-top: 30px;
     }
 
-    @media (max-width: 768px) {
-      .top-left {
+    /* Responsivo */
+    @media (max-width: 600px) {
+      .top-left-container {
         flex-direction: column;
+        align-items: center;
       }
-      .top-left .left-img {
-        margin-left: 0;
-        margin-top: 10px;
-        max-width: 100%;
+
+      .left {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top + Left -->
-  <div class="top-left">
-    <div class="top-img">
-      <img src="img/top.png" alt="Top OGTIC">
+  <!-- Top -->
+  <img src="img/top.png" alt="Top OGTIC" class="top">
+
+  <!-- Contenedor Top + Left -->
+  <div class="top-left-container">
+    <img src="img/left.png" alt="Imagen izquierda" class="left">
+
+    <!-- Selector de Formularios -->
+    <div class="form-selector">
+      <h2>Seleccione un formulario:</h2>
+      <ul>
+        <li><a href="https://rafa230423.github.io/Formulario/" target="_blank">Comunicación Digital</a></li>
+        <li><a href="#" target="_blank">Audiovisual</a></li>
+        <li><a href="#" target="_blank">Prensa</a></li>
+        <li><a href="#" target="_blank">Evento y Protocolo</a></li>
+        <li><a href="#" target="_blank">Comunicación Interna</a></li>
+      </ul>
     </div>
-    <div class="left-i
+  </div>
+
+  <!-- Footer -->
+  <img src="img/footer.png" alt="Footer OGTIC" class="footer">
+
+</body>
+</html>
 
